@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
 import "../css/Navbar.css";
-import Logo from "../Images/Logo.png";
 import {db} from "../../firebase-config"
 import Modal from "react-modal";
 import { ref, onValue } from "firebase/database";
-import { NavLink, NavLinkProps } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 
 
 function Navbar() {
@@ -80,23 +79,20 @@ function Navbar() {
     return (
         <div>
             <div className = "mainNavBar">
-                <div className = "LogoTitle">
-                    <img className = "Logo" src = {Logo} alt="Website logo"/>
-                    <h1 className = "Title">Ruth's Art Portfolio</h1>
+                <div className = "navbarNavigation">
+                    <NavLink className = "navbarLink" to = {{pathname: "/home", props: {test: "Hello"}}} >Home</NavLink>
+                    <NavLink className = "navbarLink" to = "/about">About Me</NavLink>
+                    {
+                        user === null ?
+                            <div className = "loginHeader">
+                                <button className = "logoutButtonB" onClick = {openLoggingIn}>Login</button>
+                            </div>
+                        :
+                            <div className = "loginHeader">
+                                <button className = "logoutButtonB" onClick = {logOut}>Log out</button>
+                            </div>
+                    }
                 </div>
-                <NavLink to = "/about">About Me</NavLink>
-                <NavLink to = "/home">Home</NavLink>
-                {
-                    user === null ?
-                        <div className = "loginHeader">
-                            <button className = "logoutButtonB" onClick = {openLoggingIn}>Login</button>
-                        </div>
-                    :
-                        <div className = "loginHeader">
-                            <h1 className = "logoutText">{user.name}</h1>
-                            <button className = "logoutButtonB" onClick = {logOut}>Log out</button>
-                        </div>
-                }
             </div>
 
             <Modal style={addModalStyle} isOpen = {isLoggingIn} onRequestClose = {closeLoggingIn} ariaHideApp={false}>

@@ -1,0 +1,40 @@
+@font-face {
+    font-family: "displayCard";
+    src: url("../Fonts/DK\ Sugary\ Pancake.otf")
+}
+
+.headerDiv {
+    position: static;
+
+    display: flex;
+    align-items: center;
+    justify-content: left;
+
+    height: 15vh;
+    width: 100%;
+    min-width: 75vh;
+
+    z-index: -1;
+    pointer-events: none;
+
+    margin-bottom: 0px;
+}
+
+.header {
+    margin-bottom: 0px;
+}
+
+.headerLogo {
+    height: 100%;
+}
+
+.headerTitle {
+    color: white;
+    font-size: 75px;
+    font-family: "displayCard";
+    text-shadow: 5px 5px 1px rgb(228,160,183);
+
+    min-width: 75vh;
+
+    -webkit-font-smoothing: antialiased !important;
+}

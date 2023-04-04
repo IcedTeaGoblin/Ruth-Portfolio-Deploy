@@ -79,7 +79,9 @@ function AboutMe () {
                 <div className = "mainAboutDiv">
                     <div className = "titleEditDiv">
                         <div className = "title">About Me:</div>
-                        <button onClick = {startEdit}>Edit</button>
+                        <button className = "editContentButton" onClick = {startEdit} style = {{backgroundColor: "transparent", borderWidth: "0px"}}>
+                            <img className = "editContentButtonImage" src = {require("../Images/Edit.png")}/>
+                        </button>
                     </div>
                     <div className = "bodyParent">
                         <pre className = "body">{aboutMeText}</pre>

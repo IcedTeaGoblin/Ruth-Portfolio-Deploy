@@ -63,7 +63,7 @@
     margin-bottom: 2%;
 
     color: white;
-    background-color: rgb(234,82,154);
+    background-color: rgb(228,160,183);
     font-family: displayCard;
     font-size: 30px;
 
@@ -73,4 +73,13 @@
 .optionDisplay {
     display:flex;
     justify-content: right;
+}
+
+.artCardImage {
+    height: 300px;
+    width: 300px;
+
+    border: solid;
+    border-color: rgb(228,160,183);
+    border-width: 5px;
 }

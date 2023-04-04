@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 import {db} from "../../firebase-config"
 import Modal from "react-modal";
 import { ref, set, onValue } from "firebase/database";
+import { useNavigate } from "react-router-dom";
 
  
 import ArtCard from "./ArtCard.jsx";
@@ -28,7 +29,11 @@ function Home () {
 
     const [uploading, setUploading] = useState(false);
 
+    const [artNum, setArtNum] = useState(0);
+
     localStorage.setItem("isLoading", false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -44,11 +49,14 @@ function Home () {
         onValue(ref(db, "ArtCards"), snapshot =>
         {
             var tempArt = [];
+            var tempI = 0;
             snapshot.forEach(n =>
             {
                 tempArt.push(n.val());
+                tempI++;
             })
             setArtCards(tempArt);
+            setArtNum(tempI);
         })
 
         setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
@@ -100,9 +108,15 @@ function Home () {
 
     function openViewingArt(obj) 
     {
+        /*
         console.log(obj);
         setViewingImage(obj);
         setViewingArt(true);
+        */
+
+        console.log("Start");
+        navigate(`view/${obj.name}`);
+        console.log("Done");
     }
 
     function closeViewingArt() 
@@ -136,22 +150,41 @@ function Home () {
     };
 
     return (
-        <div style ={{backgroundColor: "#f8cde1"}}>
+        <div>
             {localStorage.getItem("isLoading") === true ? 
                     null 
                 : 
-                    <div>
-                        <div className = "addArtCard">
-                            {
-                                user === null ?
-                                    null
-                                :
-                                    <button className = "addButton" onClick = {openAddingArt}>
-                                        <img src = {require("../Images/Add.png")} alt= "Button to add a new piece of art" style = {{height: "50px", width: "50px"}}/>
+                    <div>                 
+                        <div className = "HomeDisplay">
+                            { user === null ?
+                                null
+                            :
+                                <div className = "homeContentTitle">
+                                    <div>Artwork ({artNum})</div>
+                                    <button className = "homeContentAddButton" style = {{backgroundColor: "transparent", borderWidth: "0px"}} onClick = {openAddingArt}>
+                                        <img className = "homeContentAdd" src = {require("../Images/Add.png")} alt = "Add new art"/>
                                     </button>
+                                </div>
                             }
+                            
+                            <Grid container spacing = {6} alignItems="center">
+                                {artCards.map((currCard, index) => {
+                                    return (
+                                        <Grid item xs = {12} sm = {6} md = {4} lg = {3} xl = {2} key = {index}>
+                                            <ArtCard 
+                                                name = {currCard.name} 
+                                                image = {currCard.image}
+                                                id = {currCard.id}
+                                                viewFunction = {openViewingArt}
+                                                card = {currCard}
+                                                resetFunction = {setTemp}
+                                            />
+                                        </Grid>
+                                    )
+                                })}
+                            </Grid>
                         </div>
-                        
+
                         {/*Modal for adding art*/}
                         <Modal className = "modalAdd" isOpen = {isAddingArt} onRequestClose = {closeAddingArt} ariaHideApp={false}>
                             {uploading === true ?
@@ -194,27 +227,6 @@ function Home () {
                                 </div>
                             </Modal>
                         }
-
-
-
-                        <div className = "HomeDisplay">
-                            <Grid container spacing = {3}>
-                                {artCards.map((currCard, index) => {
-                                    return (
-                                        <Grid item xs = {12} sm = {6} md = {4} lg = {3}>
-                                            <ArtCard 
-                                                name = {currCard.name} 
-                                                image = {currCard.image}
-                                                id = {currCard.id}
-                                                viewFunction = {openViewingArt}
-                                                card = {currCard}
-                                                resetFunction = {setTemp}
-                                            />
-                                        </Grid>
-                                    )
-                                })}
-                            </Grid>
-                        </div>
                     </div>
             }   
         </div>

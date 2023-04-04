@@ -5,7 +5,6 @@
 
 *, html {
     margin: 0px;
-    top: 0;
 }
 
 .mainNavBar {
@@ -15,64 +14,41 @@
     top: 0;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+
+    justify-content: right;
+
     flex-direction: row;
-    width: 100% - 10px;
-    height: 100px;
+    width: 100vw - 10px;
+    height: 50px;
     overflow:hidden;
 
     padding:  10px;
 
     background-color: rgb(238,144,177);
-
-    border-bottom: solid;
-    border-top: solid;
-    border-color: rgb(234,82,154);
-    border-top-width: 5px;
-    border-bottom-width: 5px;
 }
 
-.LogoTitle {
-    height: 80%;
-    width: fit-content;
-    display:flex;
-    /*flex-direction: row;*/
-    align-items: center;
+.navbarNavigation {
+    width: 10%;
+    min-width: 400px;
 
-    padding: 10px;
-    background-color:rgb(234,82,154);
-    border-radius: 10px;
+    display: flex;
+    justify-content:space-between;
+    margin-right: 2vw;
+
+    justify-self: right;
 }
 
-.Title {
-    /*display: flex;*/
-    /*float: left;*/
-    align-self: center;
-    text-align: center;
-    margin-top: auto;
-    margin-bottom: auto;
-    
-    color: white;
-    font-family: displayCard;
-    font-size: 40px;
+.navbarLink {
+    color:white;
+    font-size: 25px;
+    float: right;
+    font-family: "displayCard";
 
-    padding: 10px;
-    background-color:rgb(234,82,154);
-    border-radius: 10px;
+    opacity: 100%;
 
-    margin-left: 10px;
+    -webkit-font-smoothing: antialiased !important;
 }
 
-.Logo {
-    /*display:flex;*/
-    height: 90%;
-    float: left;
-
-    background-color:rgb(234,82,154);
-    border-radius: 10px;
-
-    pointer-events: none;
-}
 
 .loginHeader {
     display: flex;
@@ -85,7 +61,7 @@
     font-family: "displayCard";
     color: white;
 
-    height: 90%;
+    height: fit-content;
     margin-bottom: 10px;
 }
 
@@ -121,14 +97,18 @@
     color: white;
     text-decoration: underline;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 25px;
     float: right;
 
     background-color:rgb(234,82,154);
     border-radius: 10px;
-    padding: 5px;
+    padding: 10px;
 }
 
 .logoutButtonB:hover {
     color:blue;
+}
+
+.navbarLink:hover{
+    opacity: 75%
 }

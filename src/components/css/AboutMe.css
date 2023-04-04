@@ -80,3 +80,11 @@
 .editBodyBox {
 
 }
+
+.editContentButton {
+    height: 50px;
+}
+
+.editContentButtonImage {
+    height: 90%;
+}
