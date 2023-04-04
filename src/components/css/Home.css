@@ -1,0 +1,222 @@
+@font-face {
+    font-family: "displayCard";
+    src: url("../Fonts/DK\ Sugary\ Pancake.otf")
+}
+
+@keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+#noResize {
+    resize: none;
+}
+
+.HomeDisplay {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+    min-height: 500px;
+}
+
+.addArtCard {
+    display:flex;
+    justify-content: right;
+
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.addButton {
+    margin-top: 10px;
+    height: 50px; 
+    width: 50px; 
+    background-color: transparent;
+    border-width: 0px; 
+    display: flex; 
+    justify-content: center;
+    align-content: center;
+}
+
+.addNewImage {
+    display:flex;
+    flex-direction: column;
+
+    background-color: rgb(238,144,177);
+
+    width: fit-content;
+    height: fit-content;
+
+    min-width: 400px;
+
+
+    padding: 10px;
+
+    overflow:visible;
+
+    border: solid;
+    border-color: rgb(234,82,154);
+    border-radius: 10px;
+    border-width: 5px;
+}
+
+.addNewImageInfo {
+    width: 100%;
+}
+
+.addNewImageName {
+    width: 400px;
+}
+
+.addNewImageDesc {
+    text-align:start;
+    height: 100px;
+    width: 400px;
+}
+
+.addNewImageDisplay {
+    pointer-events: none;
+}
+
+.addNewImageSubmit {
+
+}
+
+.viewImage {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+
+    background-color: rgb(238,144,177);
+
+    width: fit-content;
+    height: fit-content;
+
+    min-width: 800px;
+    max-height: 95vh;
+
+    padding: 10px;
+
+    overflow-x: hidden;
+    overflow-y: visible;
+
+    border: solid;
+    border-color: rgb(234,82,154);
+    border-radius: 10px;
+    border-width: 5px;
+
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.viewImageName {
+    color: white;
+    font-size: 30px;
+    font-family: "displayCard";
+
+    margin-top: 10px;
+    padding: 7px;
+
+    background-color: rgb(255, 79, 165);
+    border-radius: 10px;
+
+    overflow-x: auto;
+}
+
+.viewImagePicP {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.viewImagePic {
+    border: solid;
+    border-color: rgb(234,82,154);
+    border-width: 5px;
+    border-radius: 10px;
+    pointer-events: none;
+
+    max-width: 100%;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.viewImageDescription {
+    color: white;
+    font-size: 15px;
+    font-family: "displayCard";
+
+    margin-top: 10px;
+    padding: 7px;
+
+    background-color: rgb(255, 79, 165);
+    border-radius: 10px;
+
+    overflow-x: auto;
+}
+
+.viewImageClose {
+    justify-self: left;
+    width: 100px;
+    margin-top: 10px;
+}
+
+.modalAdd {
+    justify-content: center;
+    align-content: center;
+
+    width: fit-content;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    min-height: 200px;
+    min-width: 500px;
+
+    max-height: 95vh;
+}
+
+.modalView {
+    justify-content: center;
+    align-content: center;
+    float: center;
+
+    display: inline;
+    position:initial;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+
+    width: fit-content;
+    display: flex;
+    min-height: 200px;
+    min-width: 500px;
+
+    max-height: 95vh;
+    max-width: 95vw;
+
+    overflow-y: visible;
+}
+
+.loadingSpinner {
+    width: 50px;
+    height: 50px;
+    border: 10px solid #f3f3f3; /* Light grey */
+    border-top: 10px solid #383636; /* Black */
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
+}

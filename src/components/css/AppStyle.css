@@ -1,0 +1,25 @@
+.footer {
+    width: 100%;
+    pointer-events: none;
+}
+
+.header {
+    position: static;
+    width: 100%;
+
+    z-index: -1;
+    pointer-events: none;
+}
+
+.mainDiv {
+    margin: 0px;
+    padding: 0px;
+    background-color: rgb(248,174,197);
+    min-height: 100vh;
+}
+
+.contentDiv {
+    background-color: rgb(248,205,225);
+    min-height: 50vh;
+    padding: 1%;
+}

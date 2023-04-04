@@ -1,0 +1,134 @@
+@font-face {
+    font-family: "displayCard";
+    src: url("../Fonts/DK\ Sugary\ Pancake.otf")
+}
+
+*, html {
+    margin: 0px;
+    top: 0;
+}
+
+.mainNavBar {
+    position: sticky;
+    align-self: auto;
+
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100% - 10px;
+    height: 100px;
+    overflow:hidden;
+
+    padding:  10px;
+
+    background-color: rgb(238,144,177);
+
+    border-bottom: solid;
+    border-top: solid;
+    border-color: rgb(234,82,154);
+    border-top-width: 5px;
+    border-bottom-width: 5px;
+}
+
+.LogoTitle {
+    height: 80%;
+    width: fit-content;
+    display:flex;
+    /*flex-direction: row;*/
+    align-items: center;
+
+    padding: 10px;
+    background-color:rgb(234,82,154);
+    border-radius: 10px;
+}
+
+.Title {
+    /*display: flex;*/
+    /*float: left;*/
+    align-self: center;
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    
+    color: white;
+    font-family: displayCard;
+    font-size: 40px;
+
+    padding: 10px;
+    background-color:rgb(234,82,154);
+    border-radius: 10px;
+
+    margin-left: 10px;
+}
+
+.Logo {
+    /*display:flex;*/
+    height: 90%;
+    float: left;
+
+    background-color:rgb(234,82,154);
+    border-radius: 10px;
+
+    pointer-events: none;
+}
+
+.loginHeader {
+    display: flex;
+    flex-direction: column;
+    float: right;
+    font-family: "displayCard";
+}
+
+.loginTitle {
+    font-family: "displayCard";
+    color: white;
+
+    height: 90%;
+    margin-bottom: 10px;
+}
+
+.loginText {
+    display: flex;
+    float: right;
+    justify-content: right;
+    font-family: "displayCard";
+    font-size: 35px;
+    color: white;
+}
+
+.logoutText {
+    display: flex;
+    float: right;
+    font-family: "displayCard";
+    font-size: 35px;
+    color: white;
+
+    background-color:rgb(234,82,154);
+    border-radius: 10px;
+
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.logoutButtonB {
+    border: none;
+    padding: 0!important;
+    /*optional*/
+    font-family: "displayCard";
+    /*input has OS specific font-family*/
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 20px;
+    float: right;
+
+    background-color:rgb(234,82,154);
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.logoutButtonB:hover {
+    color:blue;
+}

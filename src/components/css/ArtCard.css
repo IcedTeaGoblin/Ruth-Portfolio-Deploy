@@ -1,0 +1,76 @@
+@font-face {
+    font-family: "displayCard";
+    src: url("../Fonts/DK\ Sugary\ Pancake.otf")
+}
+
+.CardParent {
+    display: block;
+    background-color: rgb(238,144,177);
+    justify-content: center;
+    text-align:center;
+
+    padding-bottom: 10px;
+
+    border: solid;
+    border-color: rgb(234,82,154);
+    border-width: 5px;
+    border-radius: 10px;
+}
+
+.cardHolder {
+    display: flex;
+    height: 325px;
+    width: 325px;
+    /*padding: 20px;*/
+    justify-content: center;
+    margin: auto;
+    border: none;
+}
+
+.CardImage {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    opacity: 100%;
+
+    margin-bottom: 100px;
+
+    border: solid;
+    border-color: rgb(234,82,154);
+    border-width: 5px;
+
+    border-radius: 10px;
+}
+
+.CardImage:hover {
+    opacity: 90%;
+}
+
+.cardInfo {
+    display: block;
+
+    align-content: center;
+
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cardNameDisplay {
+    
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+
+    color: white;
+    background-color: rgb(234,82,154);
+    font-family: displayCard;
+    font-size: 30px;
+
+    border-radius: 10px;
+}
+
+.optionDisplay {
+    display:flex;
+    justify-content: right;
+}

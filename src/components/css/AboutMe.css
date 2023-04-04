@@ -1,0 +1,82 @@
+@font-face {
+    font-family: "displayCard";
+    src: url("../Fonts/DK\ Sugary\ Pancake.otf")
+}
+
+.mainAboutDiv {
+    background-color: rgb(238,144,177);
+    padding: 10px;
+    max-height: fit-content;
+
+    border: solid;
+    border-color: rgb(234,82,154);
+    border-width: 5px;
+    border-radius: 10px;
+}
+
+.titleEditDiv {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    color: white;
+    font-family: displayCard;
+    font-size: 45px;
+}
+
+.bodyParent {
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.body {
+    color: white;
+    font-family: displayCard;
+    font-size: 20px;
+    width: 1;
+
+    flex: 1;
+}
+
+.modalEditAbout {
+    justify-content: center;
+    align-content: center;
+
+    width: fit-content;
+    margin-top: auto;
+    margin-left: auto;
+    margin-right: auto;
+
+    display: flex;
+    min-height: 200px;
+    min-width: 500px;
+
+    max-height: 95vh;
+}
+
+.editContent {
+    display:flex;
+    flex-direction: column;
+
+    background-color: rgb(238,144,177);
+
+    width: fit-content;
+    height: fit-content;
+
+    min-width: 400px;
+
+
+    padding: 10px;
+
+    overflow:visible;
+
+    border: solid;
+    border-color: rgb(234,82,154);
+    border-radius: 10px;
+    border-width: 5px;
+}
+
+.editBodyBox {
+
+}
