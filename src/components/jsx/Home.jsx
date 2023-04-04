@@ -157,7 +157,9 @@ function Home () {
                     <div>                 
                         <div className = "HomeDisplay">
                             { user === null ?
-                                null
+                                <div className = "homeContentTitle">
+                                    <div>Artwork ({artNum})</div>
+                                </div>
                             :
                                 <div className = "homeContentTitle">
                                     <div>Artwork ({artNum})</div>
