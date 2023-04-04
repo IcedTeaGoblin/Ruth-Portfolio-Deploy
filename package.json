@@ -9,7 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "base-64": "^1.0.0",
     "firebase": "^9.19.1",
-    "react": "^18.2.0",
+    "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-modal": "^3.16.1",
     "react-native": "^0.71.6",
