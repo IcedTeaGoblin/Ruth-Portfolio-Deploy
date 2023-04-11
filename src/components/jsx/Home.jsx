@@ -156,7 +156,7 @@ function Home () {
                 : 
                     <div>                 
                         <div className = "HomeDisplay">
-                            { user === null ?
+                            { user === null || user.admin === false ?
                                 <div className = "homeContentTitle">
                                     <div>Artwork ({artNum})</div>
                                 </div>

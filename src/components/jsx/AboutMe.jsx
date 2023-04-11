@@ -62,6 +62,22 @@ function AboutMe () {
         }
     }
 
+    async function checkUserExists()
+    {
+        var tempUser = await JSON.parse(localStorage.getItem("LoggedInUser"));
+        onValue(ref(db, "Users"), snapshot =>
+        {
+            snapshot.forEach(n =>
+            {
+                if(n.val().name === tempUser.name && n.val().password === tempUser.password)
+                {
+                    localStorage.setItem("LoggedInUser", JSON.stringify(n.val()));
+                    window.location.reload(false);
+                }
+            })
+        })
+    }
+
     return (
         <div>
             <Modal className = "modalEditAbout" isOpen = {isEditing} onRequestClose = {cancelEdit} ariaHideApp={false}>
@@ -75,7 +91,12 @@ function AboutMe () {
                     }
             </Modal>
 
-            {user !== null ? 
+            {user === null || user.admin === false ? 
+                <div className = "mainAboutDiv">
+                    <div className = "title">About Me:</div>
+                    <pre className = "body" style={{ flex: 1, textAlign: "left" }}>{aboutMeText}</pre>
+                </div> 
+            :
                 <div className = "mainAboutDiv">
                     <div className = "titleEditDiv">
                         <div className = "title">About Me:</div>
@@ -87,11 +108,6 @@ function AboutMe () {
                         <pre className = "body">{aboutMeText}</pre>
                     </div>
                 </div> 
-            :
-                <div className = "mainAboutDiv">
-                    <div className = "title">About Me:</div>
-                    <pre className = "body" style={{ flex: 1, textAlign: "left" }}>{aboutMeText}</pre>
-                </div>  
             }
         </div>
     )

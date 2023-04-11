@@ -54,7 +54,7 @@ function ViewArt (props) {
                     <div>?</div>
                 :
                     <div className = "viewContentDiv">
-                        {user === null?
+                        {user === null || user.admin === false?
                             <div className = "viewContentTitle">{viewArt.name}</div>
                         :
                             <div className = "viewContentTitle">

@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../css/Navbar.css";
 import {db} from "../../firebase-config"
 import Modal from "react-modal";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, set } from "firebase/database";
 import { NavLink} from "react-router-dom";
 
 
@@ -17,12 +17,30 @@ function Navbar() {
 
     const [loggingInValid, setLoggingInValid] = useState(true);
 
-    useEffect(() => {
+    const [isSigningUp, setIsSigningUp] = useState(false);
+    const [newUserName, setNewUserName] = useState("");
+    const [newUserPassword, setNewUserPassword] = useState("");
+
+    const [signUpValid, setSignUpValid] = useState(true);
+
+    useEffect(async() => {
 
         setLoggingInValid(loggingInName === "" || loggingInPassword === "");
-        setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
+        setSignUpValid(newUserName === "" || newUserPassword === "");
+        try
+        {
+            await setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
+        }
+        catch (err)
+        { 
+            console.log("ERROR: Navbar")
+        }
+        finally
+        {
+            console.log(user);
+        }
 
-    }, [loggingInName, loggingInPassword])
+    }, [loggingInName, loggingInPassword, newUserName, newUserPassword])
 
     function openLoggingIn()
     {
@@ -58,6 +76,64 @@ function Navbar() {
         window.location.reload(false);
     }
 
+    function startSignUp()
+    {
+        localStorage.setItem("LoggedInUser", JSON.stringify(null));
+        setUser(null);
+
+        setIsSigningUp(true);
+
+        setIsLoggingIn(false);
+        setLoggingInName(null);
+        setLoggingInPassword(null);
+
+    }
+
+    async function attemptSignUp()
+    {
+        var copyName = false;
+        onValue(ref(db, "Users"), snapshot =>
+        {
+            snapshot.forEach(n =>
+            {
+                if(n.val().name === newUserName)
+                {
+                    copyName = true;
+                }
+            })
+        })
+
+        if(copyName === false)
+        {
+            set(ref(db, "Users/" + newUserName), {name: newUserName, password: newUserPassword, admin: false});
+            localStorage.setItem("LoggedInUser", JSON.stringify({name: newUserName, password: newUserPassword, admin: false}));
+            window.location.reload(false);
+        }
+    }
+
+    function closeSignUp()
+    {
+        setIsSigningUp(false);
+        setNewUserName("");
+        setNewUserPassword("");
+    }
+
+    async function checkUserExists()
+    {
+        var tempUser = await JSON.parse(localStorage.getItem("LoggedInUser"));
+        onValue(ref(db, "Users"), snapshot =>
+        {
+            snapshot.forEach(n =>
+            {
+                if(n.val().name === tempUser.name && n.val().password === tempUser.password)
+                {
+                    localStorage.setItem("LoggedInUser", JSON.stringify(n.val()));
+                    window.location.reload(false);
+                }
+            })
+        })
+    }
+
     const addModalStyle = {
         content: {
             position: "initial",
@@ -79,9 +155,18 @@ function Navbar() {
     return (
         <div>
             <div className = "mainNavBar">
+                {user === null?
+                    <div/>
+                :
+                    user.admin === false?
+                        <div className = "navbarName"> {user.name} </div>
+                    :
+                        <div className = "navbarName"> {user.name} (Admin) </div>
+                }
                 <div className = "navbarNavigation">
                     <NavLink className = "navbarLink" to = {{pathname: "/home", props: {test: "Hello"}}} >Home</NavLink>
                     <NavLink className = "navbarLink" to = "/about">About Me</NavLink>
+                    <NavLink className = "navbarLink" to = "/commission">Commissions</NavLink>
                     {
                         user === null ?
                             <div className = "loginHeader">
@@ -101,6 +186,20 @@ function Navbar() {
                     <div><input placeholder = "name..." onChange = {(event) => {(setLoggingInName(event.target.value))}}/></div>
                     <div><input placeholder = "password..." onChange = {(event) => {(setLoggingInPassword(event.target.value))}}/></div>
                     <div><button onClick = {attemptLogin} disabled = {loggingInValid}>Submit</button></div>
+
+                    <div className = "navbarSignUpLink">
+                        <div> Don't have an account? </div>
+                        <button onClick = {startSignUp}> sign up </button>
+                    </div>
+                </div>
+            </Modal>
+
+            <Modal style={addModalStyle} isOpen = {isSigningUp} onRequestClose = {closeSignUp} ariaHideApp={false}>
+                <div>
+                    <h1 className = "loginTitle">Sign Up</h1>
+                    <div><input placeholder = "name..." onChange = {(event) => {(setNewUserName(event.target.value))}}/></div>
+                    <div><input placeholder = "password..." onChange = {(event) => {(setNewUserPassword(event.target.value))}}/></div>
+                    <div><button onClick = {attemptSignUp} disabled = {signUpValid}>Submit</button></div>
                 </div>
             </Modal>
         </div>
