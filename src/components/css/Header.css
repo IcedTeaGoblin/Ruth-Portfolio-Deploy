@@ -17,6 +17,7 @@
     z-index: -1;
     pointer-events: none;
 
+    padding-top: 2vh;
     margin-bottom: 0px;
 }
 
@@ -30,7 +31,7 @@
 
 .headerTitle {
     color: white;
-    font-size: 75px;
+    font-size:7lvb;
     font-family: "displayCard";
     text-shadow: 5px 5px 1px rgb(228,160,183);
 

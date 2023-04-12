@@ -12,7 +12,7 @@ function Header() {
     return (
         <div className = "headerDiv">
             <img className = "headerLogo" src = {Logo} alt="Website logo"/>
-            <div className = "headerTitle">Ruth's Portfolio Website</div>
+            <div className = "headerTitle">Ruth's Portfolio</div>
         </div>
     )
 }

@@ -11,7 +11,7 @@ function ArtCard(prop) {
     }, [tempValue])
 
     return (
-        <div> 
+        <div className = "artCardDiv"> 
             <button style = {{backgroundColor: "transparent", borderWidth: "0px"}} onClick = {() => prop.viewFunction(prop.card)}>
                 <img className = "artCardImage" src = {prop.image}/>
             </button>

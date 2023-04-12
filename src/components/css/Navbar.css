@@ -19,17 +19,18 @@
 
     flex-direction: row;
     width: 100vw - 10px;
-    height: 50px;
-    overflow:hidden;
+    height: 4vh;
 
     padding:  10px;
 
     background-color: rgb(238,144,177);
+
+    overflow:auto;
 }
 
 .navbarName {
     color:white;
-    font-size: 25px;
+    font-size:2.5lvb;
     float: left;
     font-family: "displayCard";
 
@@ -44,25 +45,30 @@
 }
 
 .navbarNavigation {
-    width: 30%;
+    width: 40%;
     min-width: 400px;
 
     display: flex;
-    justify-content:space-between;
+    justify-content:space-around;
     margin-right: 2vw;
 
     justify-self: right;
+
+    align-items: center;
 }
 
 .navbarLink {
     color:white;
-    font-size: 25px;
+    font-size:2.5lvb;
     float: right;
     font-family: "displayCard";
+    line-height: 100%;
 
     opacity: 100%;
 
     -webkit-font-smoothing: antialiased !important;
+
+    word-break: break-all;
 }
 
 
@@ -113,7 +119,7 @@
     color: white;
     text-decoration: underline;
     cursor: pointer;
-    font-size: 25px;
+    font-size:2.5lvb;
     float: right;
 
     background-color:rgb(234,82,154);
