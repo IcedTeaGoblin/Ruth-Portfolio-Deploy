@@ -1,3 +1,37 @@
+@font-face {
+    font-family: "displayCard";
+    src: url("../Fonts/DK\ Sugary\ Pancake.otf")
+}
+
 .commissionContentDiv {
     width: fit-content;
+    max-width: 100vw;
+}
+
+.commissionTitle {
+    width: fit-content;
+
+    display: flex;
+    color: white;
+    font-size: 40px;
+    font-family: "displayCard";
+
+    padding: 4px;
+    margin-bottom: 1vh;
+
+    background-color: rgb(228,160,183);
+}
+
+.commissionAccessDenied {
+    width: fit-content;
+
+    display: flex;
+    color: white;
+    font-size: 20px;
+    font-family: "displayCard";
+
+    padding: 4px;
+    margin-bottom: 1vh;
+
+    background-color: rgb(228,160,183);
 }

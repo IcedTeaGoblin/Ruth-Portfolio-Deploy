@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../css/Navbar.css";
 import {db} from "../../firebase-config"
 import Modal from "react-modal";
-import { ref, onValue, set } from "firebase/database";
+import { ref, onValue, set, get } from "firebase/database";
 import { NavLink} from "react-router-dom";
 
 
@@ -37,7 +37,7 @@ function Navbar() {
         }
         finally
         {
-            console.log(user);
+
         }
 
     }, [loggingInName, loggingInPassword, newUserName, newUserPassword])
@@ -92,7 +92,8 @@ function Navbar() {
     async function attemptSignUp()
     {
         var copyName = false;
-        onValue(ref(db, "Users"), snapshot =>
+
+        await get(ref(db, "Users"), snapshot =>
         {
             snapshot.forEach(n =>
             {
@@ -100,15 +101,18 @@ function Navbar() {
                 {
                     copyName = true;
                 }
-            })
+            }) 
         })
 
         if(copyName === false)
         {
-            set(ref(db, "Users/" + newUserName), {name: newUserName, password: newUserPassword, admin: false});
-            localStorage.setItem("LoggedInUser", JSON.stringify({name: newUserName, password: newUserPassword, admin: false}));
+            await get(ref(db, "UserID")).then((snapshot) => {
+                set(ref(db, "UserID"), snapshot.val() + 1);
+                set(ref(db, "Users/" + newUserName), {userID: snapshot.val(), name: newUserName, password: newUserPassword, admin: false});
+                localStorage.setItem("LoggedInUser", JSON.stringify({userID: snapshot.val(), name: newUserName, password: newUserPassword, admin: false}));
+            })
             window.location.reload(false);
-        }
+        } 
     }
 
     function closeSignUp()
@@ -116,22 +120,6 @@ function Navbar() {
         setIsSigningUp(false);
         setNewUserName("");
         setNewUserPassword("");
-    }
-
-    async function checkUserExists()
-    {
-        var tempUser = await JSON.parse(localStorage.getItem("LoggedInUser"));
-        onValue(ref(db, "Users"), snapshot =>
-        {
-            snapshot.forEach(n =>
-            {
-                if(n.val().name === tempUser.name && n.val().password === tempUser.password)
-                {
-                    localStorage.setItem("LoggedInUser", JSON.stringify(n.val()));
-                    window.location.reload(false);
-                }
-            })
-        })
     }
 
     const addModalStyle = {
