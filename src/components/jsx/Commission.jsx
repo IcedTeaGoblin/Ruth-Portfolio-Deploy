@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {db} from "../../firebase-config"
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, get } from "firebase/database";
 import {useParams} from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -13,6 +13,9 @@ function Commission () {
 
     const [commissionList, setCommissionList] = useState([]);
     const [commissionNum, setCommissionNum] = useState(0);
+
+    const [newCommissionDesc, setCommissionDesc] = useState("");
+    const [newCommissionImage, setCommissionImage] = useState(null);
 
     useEffect(() => {
 
@@ -30,17 +33,17 @@ function Commission () {
         })
 
         setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
-    }, [])
+    }, [newCommissionDesc])
 
     async function submitCommission()
     {
         console.log("Submit");
         try
         {
-            var tempID = 0;
-            await onValue(ref(db, "CommissionID"), snapshot =>
+            await get(ref(db, "CommissionID")).then((snapshot) =>
             {
-                tempID = snapshot.val();
+                set(ref(db, "CommissionID"), snapshot.val() + 1);
+                set(ref(db, "Commissions/" + snapshot.val()), {ID: snapshot.val(), test: ("yes: " + snapshot.val())});
             })
 
             //const baseImage = await convertBase64(addNewImage)
@@ -48,15 +51,10 @@ function Commission () {
             //console.log("Start");
             //setUploading(true);
             //await setDoc(doc(db, "ArtCards", addNewName), {name: addNewName, image: baseImage, description: addNewDescription});
-            await set(ref(db, "Commissions/" + tempID), {ID: tempID, test: ("yes: " + tempID)});
         }
         catch(err)
         {
             console.log("ERROR: " + err);
-        }
-        finally
-        {
-            set(ref(db, "CommissionID"), tempID + 1);
         }
     }
 

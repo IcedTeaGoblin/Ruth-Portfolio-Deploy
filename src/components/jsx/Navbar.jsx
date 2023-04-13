@@ -93,8 +93,7 @@ function Navbar() {
     {
         var copyName = false;
 
-        await get(ref(db, "Users"), snapshot =>
-        {
+        await get(ref(db, "Users")).then((snapshot) => {
             snapshot.forEach(n =>
             {
                 if(n.val().name === newUserName)
