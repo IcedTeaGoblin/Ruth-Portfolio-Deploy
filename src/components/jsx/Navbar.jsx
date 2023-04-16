@@ -12,7 +12,7 @@ function Navbar() {
 
     const [isLoggingIn, setIsLoggingIn] = useState(false);
 
-    const [loggingInName, setLoggingInName] = useState("");
+    const [loggingInEmail, setLoggingInEmail] = useState("");
     const [loggingInPassword, setLoggingInPassword] = useState("");
 
     const [loggingInValid, setLoggingInValid] = useState(true);
@@ -20,16 +20,21 @@ function Navbar() {
     const [isSigningUp, setIsSigningUp] = useState(false);
     const [newUserName, setNewUserName] = useState("");
     const [newUserPassword, setNewUserPassword] = useState("");
+    const [newUserEmail, setNewUserEmail] = useState("");
 
     const [signUpValid, setSignUpValid] = useState(true);
 
+    const [emailCopy, setEmailCopy] = useState(false);
+
     useEffect(async() => {
 
-        setLoggingInValid(loggingInName === "" || loggingInPassword === "");
-        setSignUpValid(newUserName === "" || newUserPassword === "");
+        setEmailCopy(false);
+        console.log(emailCopy)
+        setLoggingInValid(loggingInEmail === "" || loggingInPassword === "");
+        setSignUpValid(newUserEmail === "" || newUserPassword === "" || emailVal() === false);
         try
         {
-            await setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
+            setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
         }
         catch (err)
         { 
@@ -40,18 +45,32 @@ function Navbar() {
 
         }
 
-    }, [loggingInName, loggingInPassword, newUserName, newUserPassword])
+    }, [loggingInEmail, loggingInPassword, newUserEmail, newUserName, newUserPassword])
+
+    function emailVal()
+    {
+        const check = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if(check.test(newUserEmail) === false)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
     function openLoggingIn()
     {
         setIsLoggingIn(true);
     }
 
+    
     function closeLoggingIn()
     {
         setIsLoggingIn(false);
-        setLoggingInName(null);
-        setLoggingInPassword(null);
+        setLoggingInEmail("");
+        setLoggingInPassword("");
     }
 
     function attemptLogin()
@@ -60,7 +79,7 @@ function Navbar() {
         {
             snapshot.forEach(n =>
             {
-                if(n.val().name === loggingInName && n.val().password === loggingInPassword)
+                if(n.val().email === loggingInEmail && n.val().password === loggingInPassword)
                 {
                     localStorage.setItem("LoggedInUser", JSON.stringify(n.val()));
                     window.location.reload(false);
@@ -75,6 +94,7 @@ function Navbar() {
         setUser(null);
         window.location.reload(false);
     }
+    
 
     function startSignUp()
     {
@@ -84,34 +104,53 @@ function Navbar() {
         setIsSigningUp(true);
 
         setIsLoggingIn(false);
-        setLoggingInName(null);
-        setLoggingInPassword(null);
+        setLoggingInEmail("");
+        setLoggingInPassword("");
 
     }
 
-    async function attemptSignUp()
+    async function checkEmailCopy()
     {
-        var copyName = false;
-
-        await get(ref(db, "Users")).then((snapshot) => {
-            snapshot.forEach(n =>
+        let result = await get(ref(db, "Users")).then((snapshot) => {
+            return snapshot.forEach(n =>
             {
-                if(n.val().name === newUserName)
+                if(n.val().email === newUserEmail)
                 {
-                    copyName = true;
+                    console.log("YES");
+                    return true;
                 }
-            }) 
+            })
         })
 
-        if(copyName === false)
-        {
-            await get(ref(db, "UserID")).then((snapshot) => {
-                set(ref(db, "UserID"), snapshot.val() + 1);
-                set(ref(db, "Users/" + newUserName), {userID: snapshot.val(), name: newUserName, password: newUserPassword, admin: false});
-                localStorage.setItem("LoggedInUser", JSON.stringify({userID: snapshot.val(), name: newUserName, password: newUserPassword, admin: false}));
-            })
-            window.location.reload(false);
-        } 
+        if(result === true) {return true}
+        else {return false}
+    }
+
+    async function attemptSignUp()
+    {    
+        //Wait for the results of whether the email is a copy, then...
+        checkEmailCopy().then(result => {
+            ///If the email is not a copy...
+            if(result === false)
+            {
+                //Find the current userID value
+                get(ref(db, "UserID")).then((snapshot) => {
+                    //Itterate the userID value but one, and then...
+                    set(ref(db, "UserID"), snapshot.val() + 1);
+                    //Add the new user to the User database...
+                    set(ref(db, "Users/" + snapshot.val()), {userID: snapshot.val(), email: newUserEmail, name: newUserName, password: newUserPassword, admin: false, activeCommission: false});
+                    //And set the current logged-in user to the newly registered account
+                    localStorage.setItem("LoggedInUser", JSON.stringify({userID: snapshot.val(), email: newUserEmail, name: newUserName, password: newUserPassword, admin: false, activeCommission: false}));
+                }).then(i => {
+                    //And refresh the page to finalize procedures
+                    window.location.reload(false);
+                })
+            }
+            else if(result == true)
+            {
+                setEmailCopy(true);
+            }
+        })
     }
 
     function closeSignUp()
@@ -170,7 +209,7 @@ function Navbar() {
             <Modal style={addModalStyle} isOpen = {isLoggingIn} onRequestClose = {closeLoggingIn} ariaHideApp={false}>
                 <div>
                     <h1 className = "loginTitle">Login</h1>
-                    <div><input placeholder = "name..." onChange = {(event) => {(setLoggingInName(event.target.value))}}/></div>
+                    <div><input placeholder = "email..." onChange = {(event) => {(setLoggingInEmail(event.target.value))}}/></div>
                     <div><input placeholder = "password..." onChange = {(event) => {(setLoggingInPassword(event.target.value))}}/></div>
                     <div><button onClick = {attemptLogin} disabled = {loggingInValid}>Submit</button></div>
 
@@ -184,9 +223,18 @@ function Navbar() {
             <Modal style={addModalStyle} isOpen = {isSigningUp} onRequestClose = {closeSignUp} ariaHideApp={false}>
                 <div>
                     <h1 className = "loginTitle">Sign Up</h1>
-                    <div><input placeholder = "name..." onChange = {(event) => {(setNewUserName(event.target.value))}}/></div>
-                    <div><input placeholder = "password..." onChange = {(event) => {(setNewUserPassword(event.target.value))}}/></div>
-                    <div><button onClick = {attemptSignUp} disabled = {signUpValid}>Submit</button></div>
+                    <div><input className = "navbarSignUpInput" placeholder = "email..." onChange = {(event) => {(setNewUserEmail(event.target.value))}}/></div>
+                    {emailVal() === true?
+                        emailCopy === false?
+                            null
+                        :
+                            <div className = "navbarSignUpEmailWarning">Email is already in use!</div>
+                    :
+                        <div className = "navbarSignUpEmailWarning">Please use a valid email address</div>
+                    }
+                    <div><input className = "navbarSignUpInput" placeholder = "name..." onChange = {(event) => {(setNewUserName(event.target.value))}}/></div>
+                    <div><input className = "navbarSignUpInput" placeholder = "password..." onChange = {(event) => {(setNewUserPassword(event.target.value))}}/></div>
+                    <div><button className = "navbarSignUpSubmit" onClick = {attemptSignUp} disabled = {signUpValid}>Submit</button></div>
                 </div>
             </Modal>
         </div>

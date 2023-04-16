@@ -8,6 +8,10 @@
     max-width: 100vw;
 }
 
+.addCommission {
+    height: fit-content;
+}
+
 .commissionTitle {
     width: fit-content;
 
@@ -34,4 +38,55 @@
     margin-bottom: 1vh;
 
     background-color: rgb(228,160,183);
+}
+
+.commissionInput {
+    padding: 10px;
+    width: 90vw;
+    height: 40vh;
+    background-color: rgb(228,160,183);
+
+    margin-bottom: 1vh;
+}
+
+.commissionInputTextArea {
+    width: inherit;
+    max-width:inherit;
+
+    height: 37vh;
+    max-height: inherit;
+    box-sizing:border-box;
+}
+
+.commissionImageInput {
+    width: fit-content;
+    padding: 5px;
+    background-color: rgb(228,160,183);
+
+    margin-bottom: 1vh;
+}
+
+.commissionInputTitle {
+    display: flex;
+    color: white;
+    font-size: 20px;
+    font-family: "displayCard";
+}
+
+.commissionContactInput {
+    width: 50vw;
+    padding: 5px;
+    background-color: rgb(228,160,183);
+
+    margin-bottom: 1vh;
+}
+
+.commissionContactInputText {
+    width: inherit;
+    max-width: inherit;
+
+    height: inherit;
+    max-height: inherit;
+
+    box-sizing: border-box;
 }

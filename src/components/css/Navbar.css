@@ -140,3 +140,16 @@
 
     margin-top: 10px;
 }
+
+.navbarSignUpInput {
+    margin-top: 5%;
+}
+
+
+.navbarSignUpEmailWarning {
+    color: red;
+}
+
+.navbarSignUpSubmit {
+    margin-top: 5%;
+}

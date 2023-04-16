@@ -16,8 +16,13 @@ function Commission () {
 
     const [newCommissionDesc, setCommissionDesc] = useState("");
     const [newCommissionImage, setCommissionImage] = useState(null);
+    const [newCommissionContact, setCommissionContact] = useState("");
+
+    const [commissionValid, setCommissionValid] = useState(false);
 
     useEffect(() => {
+
+        setCommissionValid(newCommissionDesc === "");
 
         onValue(ref(db, "Commissions"), snapshot =>
         {
@@ -33,30 +38,56 @@ function Commission () {
         })
 
         setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
-    }, [newCommissionDesc])
+    }, [newCommissionDesc, newCommissionImage, newCommissionContact])
 
+    //Function that submits a new commission to the Commissions database
     async function submitCommission()
     {
-        console.log("Submit");
+        const baseImage = null
+        if(newCommissionImage !== null)
+        {
+            baseImage = await convertBase64(newCommissionImage);
+        }
+        //Retrieve the current commissionID value and then...
+        get(ref(db, "CommissionID")).then(snapshot =>
+        {
+                //Itterate the commissionID value
+                set(ref(db, "CommissionID"), snapshot.val() + 1);
+                //Push the new commission request to the Commission database
+                if(newCommissionContact === "")
+                {
+                    set(ref(db, "Commissions/" + snapshot.val()), {ID: snapshot.val(), desc: newCommissionDesc, img: baseImage, contact: user.email});
+                }
+                else
+                {
+                    set(ref(db, "Commissions/" + snapshot.val()), {ID: snapshot.val(), desc: newCommissionDesc, img: baseImage, contact: newCommissionContact});
+                }
+        }).then(i => {console.log("Submitted!")});
+    }
+
+    function convertBase64(file)
+    {
         try
         {
-            await get(ref(db, "CommissionID")).then((snapshot) =>
-            {
-                set(ref(db, "CommissionID"), snapshot.val() + 1);
-                set(ref(db, "Commissions/" + snapshot.val()), {ID: snapshot.val(), test: ("yes: " + snapshot.val())});
-            })
-
-            //const baseImage = await convertBase64(addNewImage)
-            //await addDoc(artCollection, {name: addNewName, image: baseImage, description: addNewDescription})
-            //console.log("Start");
-            //setUploading(true);
-            //await setDoc(doc(db, "ArtCards", addNewName), {name: addNewName, image: baseImage, description: addNewDescription});
+            return new Promise((resolve, reject) => {
+                const tempFileReader = new FileReader();
+                //console.log(file);
+                tempFileReader.readAsDataURL(file);
+    
+                tempFileReader.onload = () => {
+                    resolve(tempFileReader.result);
+                }
+    
+                tempFileReader.onerror = (error) => {
+                    reject(error);
+                };
+            });
         }
         catch(err)
         {
-            console.log("ERROR: " + err);
+
         }
-    }
+    };
 
     return (
         <div className = "commissionContentDiv">
@@ -66,11 +97,25 @@ function Commission () {
                     <div className = "commissionAccessDenied">Please log in or create an account to request a commission</div>
                 :
                 user.admin === false?
-                    <div>Not admin</div>
+                    <div className = "addCommission">
+                        <div className = "commissionAccessDenied">Submit a commission request</div>
+                        <div className = "commissionInput">
+                            <div className = "commissionInputTitle">Description of commission request</div>
+                            <textarea className = "commissionInputTextArea" id = "noResize" placeholder = "*describe your commission request..." onChange = {(event) => {(setCommissionDesc(event.target.value))}}/>
+                        </div>
+                        <div className = "commissionImageInput">
+                        <div className = "commissionInputTitle">Reference image (not required)</div>
+                            <input type="file" multiple = {false} accept = ".png, .jpg" onChange = {(event) => {(setCommissionImage(event.target.files[0]))}}/>
+                        </div>
+                        <div className = "commissionContactInput">
+                            <div className = "commissionInputTitle">Preferred contact (account email by default)</div>
+                            <input className = "commissionContactInputText" placeholder = {user.email} onChange = {(event) => {(setCommissionContact(event.target.value))}}/>
+                        </div>
+                        <button onClick = {submitCommission} disabled = {commissionValid}>Submit</button>
+                    </div>
                 :
                     <div>Admin</div>
             }
-            <button onClick = {submitCommission}>Submit</button>
         </div>
     )
 }
