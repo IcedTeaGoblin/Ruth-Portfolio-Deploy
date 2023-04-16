@@ -22,8 +22,6 @@ object-assign
  * http://api.jqueryui.com/category/ui-core/
  */
 
-/*! https://mths.be/base64 v1.0.0 by @mathias | MIT license */
-
 /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
 /**
