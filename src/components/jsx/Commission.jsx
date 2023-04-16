@@ -43,7 +43,7 @@ function Commission () {
     //Function that submits a new commission to the Commissions database
     async function submitCommission()
     {
-        const baseImage = null
+        var baseImage = null
         if(newCommissionImage !== null)
         {
             baseImage = await convertBase64(newCommissionImage);
