@@ -1,0 +1,37 @@
+@font-face {
+    font-family: "displayCard";
+    src: url("../Fonts/DK\ Sugary\ Pancake.otf")
+}
+
+.commissionCardDiv {
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: rgb(228,160,183);
+
+    width: 100%;
+}
+
+.commissionCardTitle {
+    display:flex;
+    justify-content:space-between;
+}
+
+.commissionCardTitleText {
+    color:white;
+    font-size: 35px;
+    font-family: "displayCard"
+}
+
+.commissionCardDesc {
+    color:white;
+    font-size: 17px;
+    font-family: "displayCard"
+}
+
+.commissionCardContact {
+    margin-top: 10px;
+    
+    color:white;
+    font-size: 17px;
+    font-family: "displayCard"
+}

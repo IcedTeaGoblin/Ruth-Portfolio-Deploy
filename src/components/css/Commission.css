@@ -90,3 +90,11 @@
 
     box-sizing: border-box;
 }
+
+.viewCommissions {
+    height: fit-content;
+}
+
+.commissionDiv {
+    width: 90vw;
+}

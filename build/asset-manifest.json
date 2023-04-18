@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/static/css/main.706ef666.css",
-    "main.js": "/static/js/main.7b1184b6.js",
+    "main.css": "/static/css/main.ff4ad9b7.css",
+    "main.js": "/static/js/main.9ce367a5.js",
     "static/media/Logo.png": "/static/media/Logo.454341db4ebffebd5c18.png",
     "static/media/DK Sugary Pancake.otf": "/static/media/DK Sugary Pancake.756d09cf7a1e5ca429d6.otf",
     "static/media/Edit.png": "/static/media/Edit.42d4abc01c04eb440f12.png",
     "static/media/Instagram.png": "/static/media/Instagram.e5fa71d9703562070719.png",
     "index.html": "/index.html",
-    "main.706ef666.css.map": "/static/css/main.706ef666.css.map",
-    "main.7b1184b6.js.map": "/static/js/main.7b1184b6.js.map"
+    "main.ff4ad9b7.css.map": "/static/css/main.ff4ad9b7.css.map",
+    "main.9ce367a5.js.map": "/static/js/main.9ce367a5.js.map"
   },
   "entrypoints": [
-    "static/css/main.706ef666.css",
-    "static/js/main.7b1184b6.js"
+    "static/css/main.ff4ad9b7.css",
+    "static/js/main.9ce367a5.js"
   ]
 }

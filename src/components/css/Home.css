@@ -88,10 +88,6 @@
     max-height: 50vh;
 }
 
-.addNewImageSubmit {
-
-}
-
 .viewImage {
     display:flex;
     flex-direction: column;
