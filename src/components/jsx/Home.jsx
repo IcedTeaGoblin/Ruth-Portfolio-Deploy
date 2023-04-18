@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Grid } from '@material-ui/core';
 import {db} from "../../firebase-config"
 import Modal from "react-modal";
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, get } from "firebase/database";
 import { useNavigate } from "react-router-dom";
 
  
@@ -59,7 +59,15 @@ function Home () {
             setArtNum(tempI);
         })
 
-        setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
+        console.log(localStorage.getItem("LoggedInUser"));
+        //Retrieve active user using local storage
+        if(localStorage.getItem("LoggedInUser") !== null)
+        {
+            get(ref(db, "Users/" + JSON.parse(localStorage.getItem("LoggedInUser")))).then(snapshot =>
+            {
+                setUser(snapshot.val());
+            })
+        }
         //getArt();
     }, [addNewName, addNewImage, isAddingArt, addNewDescription, temp])
 

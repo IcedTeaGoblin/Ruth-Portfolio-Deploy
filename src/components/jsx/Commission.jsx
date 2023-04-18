@@ -46,7 +46,15 @@ function Commission () {
             setAcceptComm(snapshot.val());
         })
 
-        setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
+        //Retrieve active user using local storage
+        if(localStorage.getItem("LoggedInUser") !== null)
+        {
+            get(ref(db, "Users/" + JSON.parse(localStorage.getItem("LoggedInUser")))).then(snapshot =>
+            {
+                setUser(snapshot.val());
+            })
+        }
+
     }, [newCommissionDesc, newCommissionImage, newCommissionContact])
 
     //Function that submits a new commission to the Commissions database
@@ -76,7 +84,13 @@ function Commission () {
                 {
                     set(ref(db, "Commissions/" + snapshot.val()), {ID: snapshot.val(), desc: newCommissionDesc, img: baseImage, contact: newCommissionContact, submittedUserID: user.userID, submittedUserName: user.name, dateSubmitted: date});
                 }
-        }).then(i => {console.log("Submitted!")});
+                console.log(user.userID);
+                set(ref(db, "Users/" + user.userID + "/activeCommission"), true)
+
+                user.activeCommission = true;
+                localStorage.setItem("LoggedInUser", JSON.stringify(user.userID));
+                window.location.reload(false);
+        }).then(i => console.log("SUBMITTED!"));
     }
 
     function convertBase64(file)
@@ -122,25 +136,28 @@ function Commission () {
                     <div className = "commissionAccessDenied">Please log in or create an account to request a commission</div>
                 :
                 user.admin === false?
-                    acceptComm === true?
-                        <div className = "addCommission">
-                            <div className = "commissionAccessDenied">Submit a commission request</div>
-                                <div className = "commissionInput">
-                                    <div className = "commissionInputTitle">Description of commission request</div>
-                                    <textarea className = "commissionInputTextArea" id = "noResize" placeholder = "briefly describe your commission request..." onChange = {(event) => {(setCommissionDesc(event.target.value))}}/>
-                                </div>
-                                <div className = "commissionImageInput">
-                                <div className = "commissionInputTitle">Reference image (not required)</div>
-                                <input type="file" multiple = {false} accept = ".png, .jpg" onChange = {(event) => {(setCommissionImage(event.target.files[0]))}}/>
-                            </div>
-                            <div className = "commissionContactInput">
-                                <div className = "commissionInputTitle">Preferred contact (account email by default)</div>
-                                <input className = "commissionContactInputText" placeholder = {user.email} onChange = {(event) => {(setCommissionContact(event.target.value))}}/>
-                            </div>
-                            <button onClick = {submitCommission} disabled = {commissionValid}>Submit</button>
-                        </div>
+                    user.activeCommission === true?
+                        <div className = "commissionAccessDenied">Users are only allowed one commission request at a time. Contact us if you have any questions or concerns</div>
                     :
-                        <div className = "commissionAccessDenied">Commissions are not currently being accepted! Please check back another time</div>
+                        acceptComm === true?
+                            <div className = "addCommission">
+                                <div className = "commissionAccessDenied">Submit a commission request</div>
+                                    <div className = "commissionInput">
+                                        <div className = "commissionInputTitle">Description of commission request</div>
+                                        <textarea className = "commissionInputTextArea" id = "noResize" placeholder = "briefly describe your commission request..." onChange = {(event) => {(setCommissionDesc(event.target.value))}}/>
+                                    </div>
+                                    <div className = "commissionImageInput">
+                                    <div className = "commissionInputTitle">Reference image (not required)</div>
+                                    <input type="file" multiple = {false} accept = ".png, .jpg" onChange = {(event) => {(setCommissionImage(event.target.files[0]))}}/>
+                                </div>
+                                <div className = "commissionContactInput">
+                                    <div className = "commissionInputTitle">Preferred contact (account email by default)</div>
+                                    <input className = "commissionContactInputText" placeholder = {user.email} onChange = {(event) => {(setCommissionContact(event.target.value))}}/>
+                                </div>
+                                <button onClick = {submitCommission} disabled = {commissionValid}>Submit</button>
+                            </div>
+                        :
+                            <div className = "commissionAccessDenied">Commissions are not currently being accepted! Please check back another time</div>
                 :
                     <div className = "viewCommissions">
                         {

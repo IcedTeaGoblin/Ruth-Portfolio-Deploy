@@ -32,17 +32,15 @@ function Navbar() {
         console.log(emailCopy)
         setLoggingInValid(loggingInEmail === "" || loggingInPassword === "");
         setSignUpValid(newUserEmail === "" || newUserPassword === "" || emailVal() === false);
-        try
+        
+        //Retrieve active user using local storage
+        console.log(localStorage.getItem("LoggedInUser"));
+        if(localStorage.getItem("LoggedInUser") !== null)
         {
-            setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
-        }
-        catch (err)
-        { 
-            console.log("ERROR: Navbar")
-        }
-        finally
-        {
-
+            get(ref(db, "Users/" + JSON.parse(localStorage.getItem("LoggedInUser")))).then(snapshot =>
+            {
+                setUser(snapshot.val());
+            })
         }
 
     }, [loggingInEmail, loggingInPassword, newUserEmail, newUserName, newUserPassword])
@@ -81,7 +79,8 @@ function Navbar() {
             {
                 if(n.val().email === loggingInEmail && n.val().password === loggingInPassword)
                 {
-                    localStorage.setItem("LoggedInUser", JSON.stringify(n.val()));
+                    //localStorage.setItem("LoggedInUser", JSON.stringify(n.val()));
+                    localStorage.setItem("LoggedInUser", JSON.stringify(n.val().userID))
                     window.location.reload(false);
                 }
             })
@@ -140,7 +139,7 @@ function Navbar() {
                     //Add the new user to the User database...
                     set(ref(db, "Users/" + snapshot.val()), {userID: snapshot.val(), email: newUserEmail, name: newUserName, password: newUserPassword, admin: false, activeCommission: false});
                     //And set the current logged-in user to the newly registered account
-                    localStorage.setItem("LoggedInUser", JSON.stringify({userID: snapshot.val(), email: newUserEmail, name: newUserName, password: newUserPassword, admin: false, activeCommission: false}));
+                    localStorage.setItem("LoggedInUser", JSON.stringify(snapshot.val()));
                 }).then(i => {
                     //And refresh the page to finalize procedures
                     window.location.reload(false);
@@ -184,10 +183,11 @@ function Navbar() {
                 {user === null?
                     <div/>
                 :
-                    user.admin === false?
-                        <div className = "navbarName"> {user.name} </div>
-                    :
+                    user.admin === true?
                         <div className = "navbarName"> {user.name} (Admin) </div>
+                    :
+                        <div className = "navbarName"> {user.name} </div>
+                    
                 }
                 <div className = "navbarNavigation">
                     <NavLink className = "navbarLink" to = {{pathname: "/home", props: {test: "Hello"}}} >Home</NavLink>

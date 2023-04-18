@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { Grid } from '@material-ui/core';
 import {db} from "../../firebase-config"
 import Modal from "react-modal";
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, get } from "firebase/database";
 
 import "../css/AboutMe.css";
 
@@ -18,16 +18,20 @@ function AboutMe () {
     
     useEffect(() => {
 
-        setUser(JSON.parse(localStorage.getItem("LoggedInUser")));
-        if(user != null)
-        {
-            console.log("ABOUT ME: " + user.name);
-        }
-
         onValue(ref(db, "AboutMe"), snapshot =>
         {
             setAboutMeText(snapshot.val());
         })
+
+        //Retrieve active user using local storage
+        if(localStorage.getItem("LoggedInUser") !== null)
+        {
+            get(ref(db, "Users/" + JSON.parse(localStorage.getItem("LoggedInUser")))).then(snapshot =>
+            {
+                setUser(snapshot.val());
+            })
+        }
+
     }, [isEditing, editingBody])
 
     function startEdit()
@@ -71,7 +75,7 @@ function AboutMe () {
             {
                 if(n.val().name === tempUser.name && n.val().password === tempUser.password)
                 {
-                    localStorage.setItem("LoggedInUser", JSON.stringify(n.val()));
+                    localStorage.setItem("LoggedInUser", JSON.stringify(n.val().userID));
                     window.location.reload(false);
                 }
             })
