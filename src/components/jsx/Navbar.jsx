@@ -35,6 +35,7 @@ function Navbar() {
         
         //Retrieve active user using local storage
         localStorage.setItem("LoggedInUser", null);
+        console.log("IT IS THIS: " + localStorage.getItem("LoggedInUser"));
         if(localStorage.getItem("LoggedInUser") !== null)
         {
             get(ref(db, "Users/" + JSON.parse(localStorage.getItem("LoggedInUser")))).then(snapshot =>
