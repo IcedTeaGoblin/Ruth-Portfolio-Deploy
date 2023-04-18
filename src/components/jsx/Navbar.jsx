@@ -39,6 +39,7 @@ function Navbar() {
         {
             get(ref(db, "Users/" + JSON.parse(localStorage.getItem("LoggedInUser")))).then(snapshot =>
             {
+                console.log(snapshot.val());
                 setUser(snapshot.val());
             })
         }
