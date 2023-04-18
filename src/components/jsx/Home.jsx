@@ -59,7 +59,6 @@ function Home () {
             setArtNum(tempI);
         })
 
-        console.log(localStorage.getItem("LoggedInUser"));
         //Retrieve active user using local storage
         if(localStorage.getItem("LoggedInUser") !== null)
         {
