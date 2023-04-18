@@ -34,7 +34,6 @@ function Navbar() {
         setSignUpValid(newUserEmail === "" || newUserPassword === "" || emailVal() === false);
         
         //Retrieve active user using local storage
-        localStorage.setItem("LoggedInUser", null);
         console.log("IT IS THIS: " + localStorage.getItem("LoggedInUser"));
         if(localStorage.getItem("LoggedInUser") !== null)
         {
