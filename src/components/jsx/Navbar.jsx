@@ -34,6 +34,7 @@ function Navbar() {
         setSignUpValid(newUserEmail === "" || newUserPassword === "" || emailVal() === false);
         
         //Retrieve active user using local storage
+        localStorage.setItem("LoggedInUser", null);
         if(localStorage.getItem("LoggedInUser") !== null)
         {
             get(ref(db, "Users/" + JSON.parse(localStorage.getItem("LoggedInUser")))).then(snapshot =>
